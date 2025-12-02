@@ -3,7 +3,7 @@ Kelompok 9
 ### Tugas UAS Fase 2 - Pemrograman Berbasis Objek
 
 **Tim Pengembang (Kelompok):**
-1.  **Raden Satria Wiratama**
+1.  **Raden Satria**
 2.  **Gizabella** 
 3.  **M. Arya**
 

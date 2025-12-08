@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 
@@ -42,5 +43,14 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: New Layer 1
-    uniqueID: 4256449055
+    uniqueID: 4282038463
+    locked: 0
+  - name: New Layer 2
+    uniqueID: 3550787343
+    locked: 0
+  - name: New Layer 3
+    uniqueID: 222911659
+    locked: 0
+  - name: New Layer 4
+    uniqueID: 3320665085
     locked: 0

@@ -65,13 +65,4 @@ Pada fase ini, pengembangan telah mencapai tahap **Fitur Lengkap** sesuai dengan
 
 ---
 
-## 🛠️ Cara Menjalankan Project
-
-1.  **Clone/Download** repository ini.
-2.  Buka menggunakan **Unity Hub** (Versi 2022.3.13f1 atau yang setara).
-3.  Buka Scene **`Opening`** (atau `Main_Menu`) di dalam folder `Assets/Scenes`.
-4.  Tekan tombol **Play**.
-
----
-
 *Disusun untuk memenuhi Tugas UAS Mata Kuliah Pengembangan Game Pendidikan.*

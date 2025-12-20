@@ -6,41 +6,67 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     [Header("Pengaturan Panel Options")]
-    // Masukkan GameObject Panel Options ke sini lewat Inspector
     public GameObject optionsPanel;
 
-    // ---------------------------------------------------------
-    // FUNGSI 1: PINDAH SCENE DINAMIS
-    // Perhatikan ada tulisan (string namaScene) di dalam kurung.
-    // Ini artinya Unity akan minta kita mengetik nama scene-nya nanti di tombol.
-    // ---------------------------------------------------------
+    // --- FUNGSI UTAMA TOMBOL START ---
+    public void MulaiPermainanBaru(string namaScene)
+    {
+        // 1. RESET SKOR (Tugas Utama dia)
+        PlayerPrefs.DeleteKey("SkorSementara");
+        // Kalau ScoreManager ada di menu, reset juga
+        if (ScoreManager.instance != null)
+        {
+            ScoreManager.instance.ResetScore();
+        }
+
+        // 2. PANGGIL LEVEL LOADER (Buat Transisi)
+        // Kita cari script LevelLoader yang ada di scene ini
+        LevelLoader loader = FindObjectOfType<LevelLoader>();
+
+        if (loader != null)
+        {
+            // Kalau ada LevelLoader, suruh dia yang pindahin scene (biar ada Fade)
+            loader.LoadNextLevel(namaScene);
+        }
+        else
+        {
+            // Jaga-jaga kalau lupa naruh LevelLoader, pindah biasa
+            SceneManager.LoadScene(namaScene);
+        }
+    }
+
+    // --- FUNGSI LAINNYA (Biarkan Saja) ---
     public void PindahKeScene(string namaScene)
     {
         SceneManager.LoadScene(namaScene);
     }
 
-    // ---------------------------------------------------------
-    // FUNGSI 2: BUKA/TUTUP OPTIONS
-    // Fungsi ini akan menyalakan/mematikan panel options
-    // ---------------------------------------------------------
     public void BukaOptions()
     {
-        // Aktifkan panel options
         optionsPanel.SetActive(true);
     }
 
     public void TutupOptions()
     {
-        // Matikan panel options (biasanya dipasang di tombol "Back" di dalam panel)
         optionsPanel.SetActive(false);
     }
 
-    // ---------------------------------------------------------
-    // FUNGSI 3: KELUAR GAME
-    // ---------------------------------------------------------
     public void KeluarGame()
     {
         Debug.Log("Keluar Game...");
         Application.Quit();
+    }
+
+    [Header("Panel UI")]
+    public GameObject aboutPanel;
+
+    public void BukaAbout()
+    {
+        aboutPanel.SetActive(true);
+    }
+
+    public void TutupAbout()
+    {
+        aboutPanel.SetActive(false);
     }
 }

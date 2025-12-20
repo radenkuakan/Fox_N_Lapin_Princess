@@ -1,64 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement; // Wajib buat Reload Scene
 
 public class GameOverManager : MonoBehaviour
 {
     [Header("UI References")]
+    // Tarik Panel Game Over ke sini di Inspector
     public GameObject panelGameOver;
 
-    [Header("Player Settings")]
-    public Transform player;       // Objek Player (Rubah)
-    public Transform respawnPoint; // Titik Respawn (Objek Kosong tadi)
+    [Header("Nama Scene Menu Utama")]
+    public string namaSceneMenu = "Main_Menu";
 
-    // Fungsi dipanggil saat Player kena air/musuh
+    // Nama fungsi ini WAJIB "PlayerMati" sesuai request kamu
     public void PlayerMati()
     {
-        // 1. Matikan Musik Background (Biar hening/dramatis)
-        if (BackgroundMusic.instance != null)
+        StartCoroutine(ProsesKematian());
+    }
+
+    IEnumerator ProsesKematian()
+    {
+        // 1. Cari Player dan mainkan animasi Hurt
+        PlayerMovement playerScript = FindObjectOfType<PlayerMovement>();
+        if (playerScript != null)
         {
-            BackgroundMusic.instance.MatikanMusik();
+            playerScript.TriggerHurt();
         }
 
-        // 2. Mainkan Suara Game Over (Jeng jeng jeng!)
-        if (SFXManager.instance != null)
-        {
-            SFXManager.instance.MainkanGameOver();
-        }
+        // 2. Matikan Musik & SFX
+        if (BackgroundMusic.instance != null) BackgroundMusic.instance.MatikanMusik();
+        if (SFXManager.instance != null) SFXManager.instance.MainkanGameOver();
 
-        // 3. Munculkan panel & Hentikan waktu
-        panelGameOver.SetActive(true);
+        // 3. TUNGGU SEBENTAR
+        yield return new WaitForSeconds(0.5f);
+
+        // 4. Munculkan panel & hentikan waktu
+        if (panelGameOver != null) panelGameOver.SetActive(true);
         Time.timeScale = 0f;
     }
 
-    // Fungsi untuk Tombol "Coba Lagi"
-    public void RespawnUlang()
+    // --- FUNGSI TOMBOL "COBA LAGI" (SUDAH DIPERBAIKI) ---
+    public void CobaLagi()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; // Waktu jalan lagi
 
-        // 1. Nyalakan Musik Background Lagi
-        if (BackgroundMusic.instance != null)
-        {
-            BackgroundMusic.instance.NyalakanMusik();
-        }
+        // --- BAGIAN YANG DIHAPUS ---
+        // ScoreManager.instance.ResetScore(); <--- JANGAN DI-RESET DISINI!
+        // Biarkan dia ngeload skor dari save-an terakhir (Level 1).
 
-        // 2. Pindahkan Player & Reset Velocity
-        player.position = respawnPoint.position;
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            rb.velocity = Vector2.zero;
-        }
-
-        // 3. Sembunyikan panel
-        panelGameOver.SetActive(false);
+        // Muat Ulang Level saat ini
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // Fungsi untuk Tombol "Keluar"
+    // Fungsi Tombol "KEMBALI KE MENU"
     public void KeMenuUtama()
     {
-        Time.timeScale = 1f; // Selalu normalkan waktu sebelum pindah scene!
-        SceneManager.LoadScene("Main_Menu");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(namaSceneMenu);
     }
 }

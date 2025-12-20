@@ -6,68 +6,121 @@ using UnityEngine.SceneManagement;
 public class LevelMove : MonoBehaviour
 {
     [Header("Pengaturan Mode")]
-    // Kalau dicentang = Muncul Panel Menang dulu (Untuk Level 1, 2, dst)
-    // Kalau tidak dicentang = Langsung Pindah (Untuk Intro)
+    // Centang = Muncul Panel Menang dulu (Level 1)
+    // Jangan Centang = Langsung Transisi (Intro)
     public bool pakaiPanelMenang = true;
 
     [Header("UI References")]
-    public GameObject winPanel; // Masukkan Panel Win (Cuma butuh kalau pakaiPanelMenang dicentang)
+    public GameObject winPanel;
 
     [Header("Tujuan Selanjutnya")]
-    public string namaSceneSelanjutnya; // Ketik nama scene tujuan
+    public string namaSceneSelanjutnya;
 
-    // Dipanggil saat Player menabrak tiang finis
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            // --- MATIKAN GERAKAN PLAYER ---
+            PlayerMovement playerScript = other.GetComponent<PlayerMovement>();
+            Rigidbody2D playerRb = other.GetComponent<Rigidbody2D>();
+
+            if (playerScript != null)
+            {
+                if (playerScript.anim != null)
+                {
+                    playerScript.anim.SetBool("run", false);
+                }
+                playerScript.enabled = false;
+            }
+
+            if (playerRb != null)
+            {
+                playerRb.velocity = Vector2.zero;
+                playerRb.bodyType = RigidbodyType2D.Kinematic;
+            }
+            // ---------------------------------------------
+
             if (pakaiPanelMenang == true)
             {
-                // MODE 1: Munculkan Panel dulu (Untuk Level)
+                // JALUR 1: Munculkan Panel Menang
                 Menang();
             }
             else
             {
-                // MODE 2: Langsung Pindah (Untuk Intro)
-                SceneManager.LoadScene(namaSceneSelanjutnya);
+                // JALUR 2: Langsung Pindah (Intro)
+
+                // --- SIMPAN SKOR DISINI ---
+                if (ScoreManager.instance != null)
+                {
+                    ScoreManager.instance.SimpanSkor();
+                }
+                // ---------------------------------------
+
+                CariDanPindahLevel();
             }
         }
     }
 
     void Menang()
     {
-        // 1. Matikan Musik Background (Biar suara menangnya jelas)
+        // 1. Matikan Musik Background
         if (BackgroundMusic.instance != null)
         {
             BackgroundMusic.instance.MatikanMusik();
         }
 
-        // 2. Mainkan Suara Level Complete (Hore!)
+        // 2. Mainkan Suara Level Complete
         if (SFXManager.instance != null)
         {
             SFXManager.instance.MainkanLevelComplete();
         }
 
-        // 3. Munculkan panel & Hentikan waktu
+        // 3. Munculkan panel
         if (winPanel != null)
         {
             winPanel.SetActive(true);
         }
+
+        // Pause Game Biar Musuh Diam
         Time.timeScale = 0f;
     }
 
-    // Fungsi ini dipasang di Tombol "Next Level" pada Panel
     public void PindahKeLevelBerikutnya()
     {
+        // 1. Wajib balikin waktu jadi 1 biar animasi Fade bisa jalan
         Time.timeScale = 1f;
 
-        // --- NYALAKAN MUSIK LAGI SEBELUM PINDAH ---
-        if (BackgroundMusic.instance != null)
+        // 2. Simpan Skor sebelum pindah
+        if (ScoreManager.instance != null)
         {
-            BackgroundMusic.instance.NyalakanMusik();
+            ScoreManager.instance.SimpanSkor();
         }
-        // ------------------------------------------
 
-        SceneManager.LoadScene(namaSceneSelanjutnya);
+        // --- BAGIAN INI SUDAH DIHAPUS ---
+        // Kita HAPUS perintah menyalakan musik disini.
+        // Biar pas transisi hening, gak kaget ada suara musik nyala lagi.
+
+        // if (BackgroundMusic.instance != null)
+        // {
+        //    BackgroundMusic.instance.NyalakanMusik(); 
+        // }
+        // --------------------------------
+
+        // 3. Panggil LevelLoader buat transisi Fade Out
+        CariDanPindahLevel();
+    }
+
+    void CariDanPindahLevel()
+    {
+        LevelLoader loader = FindObjectOfType<LevelLoader>();
+
+        if (loader != null)
+        {
+            loader.LoadNextLevel(namaSceneSelanjutnya);
+        }
+        else
+        {
+            SceneManager.LoadScene(namaSceneSelanjutnya);
+        }
     }
 }

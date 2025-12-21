@@ -2,7 +2,7 @@
 
 **Tugas UAS Proyek Fase 4 - Polish & Optimization**
 
-**Pengembang (Kelompok 9):**
+**Pengembang (Kelompok 6):**
 * **Nama:** Ghizabella Nurania
 * **Nama:** Mochammad Arya Aprilian Pratama
 * **Nama:** Raden Satria Wiratama

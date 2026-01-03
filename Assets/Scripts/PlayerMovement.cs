@@ -17,6 +17,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isDead = false;
 
+    // --- [BARU] VARIABEL KHUSUS ANDROID ---
+    // Ini saklar untuk mengetahui apakah tombol layar sedang ditekan
+    private bool tekanKiri = false;
+    private bool tekanKanan = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -27,15 +32,35 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDead) return;
 
-        // 1. INPUT
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        // --- 1. LOGIKA INPUT GABUNGAN (KEYBOARD + ANDROID) ---
 
-        // 2. LOMPAT
+        // A. Ambil dari Keyboard dulu (Default)
+        float inputKeyboard = Input.GetAxisRaw("Horizontal");
+
+        // B. Ambil dari Tombol Layar (Android)
+        float inputAndroid = 0f;
+        if (tekanKiri)
+        {
+            inputAndroid = -1f; // Gerak Kiri
+        }
+        else if (tekanKanan)
+        {
+            inputAndroid = 1f;  // Gerak Kanan
+        }
+
+        // C. Gabungkan!
+        // Kalau keyboard ditekan, dia jalan. Kalau tombol layar ditekan, dia juga jalan.
+        horizontalInput = inputKeyboard + inputAndroid;
+
+        // Kunci nilainya biar gak lebih dari 1 atau kurang dari -1
+        horizontalInput = Mathf.Clamp(horizontalInput, -1f, 1f);
+
+        // -----------------------------------------------------
+
+        // 2. LOMPAT (KEYBOARD)
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            if (anim != null) anim.SetTrigger("jump");
-            if (SFXManager.instance != null) SFXManager.instance.MainkanJump();
+            LakukanLompat(); // Kita panggil fungsi lompat
         }
 
         // 3. FLIP BADAN
@@ -60,37 +85,66 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
     }
 
+    // --- [BARU] FUNGSI UNTUK TOMBOL UI ANDROID ---
+
+    // Dipanggil saat tombol KIRI ditekan (Pointer Down)
+    public void TekanKiri()
+    {
+        tekanKiri = true;
+    }
+    // Dipanggil saat tombol KIRI dilepas (Pointer Up)
+    public void LepasKiri()
+    {
+        tekanKiri = false;
+    }
+
+    // Dipanggil saat tombol KANAN ditekan
+    public void TekanKanan()
+    {
+        tekanKanan = true;
+    }
+    // Dipanggil saat tombol KANAN dilepas
+    public void LepasKanan()
+    {
+        tekanKanan = false;
+    }
+
+    // Dipanggil saat tombol JUMP ditekan (Tap)
+    public void LakukanLompat()
+    {
+        // Cek syarat lompat disini biar tombol UI juga patuh aturan
+        if (isGrounded && !isDead)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            if (anim != null) anim.SetTrigger("jump");
+            if (SFXManager.instance != null) SFXManager.instance.MainkanJump();
+        }
+    }
+
+    // ---------------------------------------------
+
     // --- FUNGSI SAKIT (PUSAT LOGIKA MATI) ---
-    // Sekarang semua efek (Suara, Musik, Panel) dijalankan DISINI.
     public void TriggerHurt()
     {
-        // 1. GEMBOK PENGAMAN (Penting!)
-        // Kalau sudah mati, stop. Jangan jalankan suara lagi.
         if (isDead == true) return;
 
-        // Kunci status mati
         isDead = true;
 
-        // 2. Mainkan Animasi
         if (anim != null) anim.SetTrigger("hurt");
 
-        // 3. Matikan Musik Background
         if (BackgroundMusic.instance != null)
         {
             BackgroundMusic.instance.MatikanMusik();
         }
 
-        // 4. Mainkan Suara Game Over (HANYA SEKALI DISINI)
         if (SFXManager.instance != null)
         {
             SFXManager.instance.MainkanGameOver();
         }
 
-        // 5. Panggil GameOverManager
         GameOverManager gm = FindObjectOfType<GameOverManager>();
         if (gm != null)
         {
-            // Kita panggil fungsi PlayerMati() yang ada di script GameOverManager kamu
             gm.PlayerMati();
         }
     }
@@ -98,14 +152,10 @@ public class PlayerMovement : MonoBehaviour
     // --- DETEKSI TABRAKAN ---
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Kalau sudah mati, abaikan semua tabrakan
         if (isDead == true) return;
 
-        // Cek apakah kena Musuh?
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Cukup panggil TriggerHurt.
-            // Biarkan TriggerHurt yang mengurus suara & panelnya.
             TriggerHurt();
         }
     }

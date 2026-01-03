@@ -2,40 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
     [Header("Pengaturan Panel Options")]
     public GameObject optionsPanel;
 
+    [Header("Display Nama Player")]
+    public TextMeshProUGUI teksNamaDisplay;
+
+    // --- FUNGSI START (Dipanggil otomatis) ---
+    void Start()
+    {
+        // 1. Setting FPS & VSync (Kode Asli Kamu)
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
+
+        // 2. Tampilkan Nama Player
+        if (teksNamaDisplay != null)
+        {
+            if (PlayerPrefs.HasKey("NamaPlayer"))
+            {
+                string nama = PlayerPrefs.GetString("NamaPlayer");
+                teksNamaDisplay.text = nama; // Sesuai request (tanpa "Hi")
+            }
+            else
+            {
+                teksNamaDisplay.text = "Player";
+            }
+        }
+    }
+    // ------------------------------------
+
     // --- FUNGSI UTAMA TOMBOL START ---
     public void MulaiPermainanBaru(string namaScene)
     {
-        // 1. RESET SKOR (Tugas Utama dia)
+        // 1. RESET SKOR
         PlayerPrefs.DeleteKey("SkorSementara");
-        // Kalau ScoreManager ada di menu, reset juga
+
         if (ScoreManager.instance != null)
         {
             ScoreManager.instance.ResetScore();
         }
 
-        // 2. PANGGIL LEVEL LOADER (Buat Transisi)
-        // Kita cari script LevelLoader yang ada di scene ini
+        // 2. PANGGIL LEVEL LOADER
         LevelLoader loader = FindObjectOfType<LevelLoader>();
 
         if (loader != null)
         {
-            // Kalau ada LevelLoader, suruh dia yang pindahin scene (biar ada Fade)
             loader.LoadNextLevel(namaScene);
         }
         else
         {
-            // Jaga-jaga kalau lupa naruh LevelLoader, pindah biasa
             SceneManager.LoadScene(namaScene);
         }
     }
 
-    // --- FUNGSI LAINNYA (Biarkan Saja) ---
+    // --- FUNGSI GANTI NAMA (FITUR BARU) ---
+    public void GantiNamaPlayer()
+    {
+        // 1. HAPUS Data Nama Lama
+        // Ini penting! Kalau tidak dihapus, scene ProfileSetup akan otomatis
+        // melempar balik ke MainMenu karena mengira nama masih ada.
+        PlayerPrefs.DeleteKey("NamaPlayer");
+        PlayerPrefs.Save(); // Pastikan terhapus detik ini juga
+
+        // 2. Pindah ke Scene Input Nama
+        // Pastikan nama scenenya sama persis dengan yang kamu buat
+        SceneManager.LoadScene("ProfileSetup");
+    }
+
+    // --- FUNGSI LAINNYA (SAMA SEPERTI SEBELUMNYA) ---
     public void PindahKeScene(string namaScene)
     {
         SceneManager.LoadScene(namaScene);

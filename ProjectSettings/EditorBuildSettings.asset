@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Logo_Opening.unity
     guid: 24134f6d7e67ec3428441293345e3cc3
   - enabled: 1
+    path: Assets/Scenes/Opening_Raden.unity
+    guid: 7ee32270787285844af036d4d94fbf9c
+  - enabled: 1
     path: Assets/Scenes/Opening.unity
     guid: 941d63cef8d35c6488bd1fdeea37350d
+  - enabled: 1
+    path: Assets/Scenes/ProfileSetup.unity
+    guid: 53900b0b22e4ed245ac94afc613b6829
   - enabled: 1
     path: Assets/Scenes/Main_Menu.unity
     guid: 2cda990e2423bbf4892e6590ba056729

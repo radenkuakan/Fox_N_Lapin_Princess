@@ -3,9 +3,9 @@
 **Tugas UAS Proyek Fase 5 - Final Build & Deployment (Android)**
 
 **Pengembang (Kelompok 6):**
-* **Nama:** Ghizabella Nurania
-* **Nama:** Mochammad Arya Aprilian Pratama
-* **Nama:** Raden Satria Wiratama
+* **Ghizabella Nurania** - *Project Manager* 📅
+* **Mochammad Arya Aprilian Pratama** - *Art & Level Designer* 🎨
+* **Raden Satria Wiratama** - *Lead Programmer* 💻
 
 **Kelas:** 3A Pendidikan Multimedia - UPI Kampus di Cibiru
 
@@ -50,12 +50,16 @@ Fase ini adalah tahap penyelesaian akhir di mana game dikonversi sepenuhnya dari
 
 ### 2. User Interface (UI) System
 * **Profile Setup Panel:** Panel awal untuk registrasi nama.
-* **Main Menu:** Menampilkan sapaan personal ("Hi, [Nama]").
+* **Main Menu:** Menampilkan sapaan personal ("[Nama]").
 * **Virtual Gamepad:** Tombol kontrol transparan di layar permainan.
 * **Flow Panels:** Pause, Game Over, dan Level Complete.
 
-### 3. Level Design
-* **Level 1 (The Forest):** Level lengkap dengan kurva kesulitan bertahap (Tutorial -> Tantangan -> Finish).
+### 3. Level Design (Complete Stages) 🗺️
+Game ini terdiri dari 3 Level dengan tingkat kesulitan bertingkat:
+* **Level 1 (The Beginning):** Pengenalan rintangan dasar dan musuh sederhana.
+* **Level 2 (The Challenge):** Tingkat kesulitan meningkat dengan *platforming* yang lebih presisi dan jumlah musuh lebih banyak.
+* **Level 3 (Final Rescue):** Level terakhir dan tersulit. Pemain harus mencapai titik akhir istana untuk menyelamatkan Putri.
+    * **Ending:** Memunculkan pesan kemenangan **"LAPIN PRINCESS SAVED"**.
 
 ### 4. Audio Implementation
 * **Dynamic Audio:** BGM yang berbeda tiap scene dan SFX lengkap.
@@ -78,7 +82,7 @@ Fase ini adalah tahap penyelesaian akhir di mana game dikonversi sepenuhnya dari
 Game ini sudah tersedia dalam format **.APK** yang bisa diinstal di HP Android.
 1. Masuk ke tab **Releases** di sebelah kanan halaman GitHub ini.
 2. Pilih versi terbaru.
-3. Download file **`Fox N Lapin Princess v1.0.5.apk`**.
+3. Download file **`Fox N Lapin.apk`**.
 4. Install di HP Android kamu dan mainkan!
 
 ---

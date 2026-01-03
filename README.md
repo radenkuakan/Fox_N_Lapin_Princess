@@ -1,6 +1,6 @@
 # GAME: FOX & LAPIN PRINCESS 🦊🐰
 
-**Tugas UAS Proyek Fase 4 - Polish & Optimization**
+**Tugas UAS Proyek Fase 5 - Final Build & Deployment (Android)**
 
 **Pengembang (Kelompok 6):**
 * **Nama:** Ghizabella Nurania
@@ -12,72 +12,81 @@
 ---
 
 ## 🎮 Deskripsi Game
-**Fox & Lapin Princess** adalah game *2D Pixel Art Platformer* yang menceritakan petualangan seekor Rubah pemberani. Pemain harus melewati hutan yang penuh rintangan, duri, dan musuh untuk menyelamatkan Putri Lapin yang hilang. Game ini menuntut ketangkasan pemain dalam melompat dan menghindari bahaya.
+**Fox & Lapin Princess** adalah game *2D Pixel Art Platformer* berbasis **Android (Mobile)** yang menceritakan petualangan seekor Rubah pemberani. Pemain harus melewati hutan yang penuh rintangan, duri, dan musuh untuk menyelamatkan Putri Lapin yang hilang.
+
+Berbeda dengan versi sebelumnya, versi final ini telah dioptimalkan untuk layar sentuh, memiliki sistem profil pemain, dan narasi yang personal.
 
 ---
 
-## 🚀 Update Fase 4 (Polish & Optimization)
-Pada fase ini, pengembangan difokuskan pada perbaikan *bug*, penyeimbangan permainan (*balancing*), serta peningkatan kualitas visual dan audio:
+## 🚀 Update Fase 5 (Final Build & Android Porting)
+Fase ini adalah tahap penyelesaian akhir di mana game dikonversi sepenuhnya dari PC ke Android, berikut fitur utamanya:
 
-### 1. Bug Fixing & Optimization 🛠️
-* Perbaikan *colliders* pada tilemap agar pemain tidak tersangkut.
-* Optimasi skrip untuk performa yang lebih ringan.
-* Perbaikan logika *respawn* dan *scene management*.
+### 1. Android Porting & Optimization 📱
+* **Touchscreen Controls:** Implementasi tombol virtual (On-Screen UI) untuk Kiri, Kanan, dan Lompat.
+* **Resolution Scaling:** UI menyesuaikan berbagai ukuran layar HP (Responsive Canvas).
+* **Performance:** Game dikunci pada **60 FPS** dan VSync dinonaktifkan untuk performa baterai yang efisien.
 
-### 2. Game Balancing ⚖️
-* Penyesuaian tata letak rintangan dan musuh agar tingkat kesulitan lebih adil (*fair*).
-* Penyesuaian *gravity* dan *jump force* karakter agar kontrol terasa lebih responsif.
+### 2. Profile & Save System 💾
+* **Input Nama Pemain:** Fitur baru di awal permainan untuk memasukkan nama (Nickname).
+* **Data Persistence:** Nama dan Skor tersimpan permanen menggunakan *PlayerPrefs* (tidak hilang walau aplikasi ditutup).
+* **Fitur "Ganti Nama":** Opsi di menu pengaturan untuk mereset identitas pemain.
 
-### 3. Visual Polish ✨
-* **Particles:** Penambahan efek partikel (debu saat lari/lompat, efek saat mengambil item).
-* **Animations:** Memperhalus transisi animasi karakter (Idle ke Run, Jump ke Fall).
-* **Transitions:** Penambahan transisi *Fade In/Fade Out* antar *scene* agar perpindahan tidak kaku.
+### 3. Personalized Narrative 📜
+* **Smart Prologue:** Teks cerita intro secara otomatis menyisipkan nama pemain ke dalam dialog (Contoh: *"RADEN, BANTU DIA..."*), membuat pengalaman bermain lebih imersif.
 
-### 4. Audio Polish 🎵
-* *Mixing* ulang volume BGM dan SFX agar seimbang.
-* Penambahan efek suara yang sebelumnya kurang (seperti suara *footsteps* atau *landing*).
-
----
-
-## 🧩 Fitur Lengkap (Fase 3 & Sebelumnya)
-
-### 1. Game Mechanics (Mekanik Permainan) ✅
-* **Character Movement:** Sistem gerak fisika yang halus (Jalan Kanan/Kiri, Lompat).
-* **Collision System:** Deteksi tabrakan yang akurat untuk tanah (*Ground Check*), musuh, dan item.
-* **Hazard & Death:** Pemain akan mati jika menyentuh musuh, duri, atau jatuh ke jurang.
-* **Respawn System:** Pemain hidup kembali di titik *Checkpoints* terakhir tanpa me-reset skor.
-
-### 2. User Interface (UI) System ✅
-* **Main Menu:** Tombol Start, Options, dan Quit yang berfungsi.
-* **HUD (Heads-Up Display):** Tampilan skor *real-time* di layar permainan.
-* **Pause System:** Game bisa dijeda, menampilkan panel Pause dengan opsi Resume/Back to Menu.
-* **Game Over & Win Panels:** Tampilan interaktif saat pemain kalah atau berhasil menyelesaikan level.
-* **Scene Flow:** Terdapat *Splash Screen* (Opening) dan *Intro Story*.
-
-### 3. Level Design (Complete Stage) ✅
-* **Level 1 (Forest):** Satu level utuh dari titik *Start* hingga *Finish Line*.
-* Terdapat variasi rintangan (*Platforming*, Jurang, Musuh).
-* Transisi otomatis ke level selanjutnya saat menyentuh titik akhir.
-
-### 4. Scoring System ✅
-* Mekanik pengumpulan item (Buah Cherry).
-* Skor bertambah saat item diambil dan tersimpan secara statis.
-
-### 5. Audio Implementation ✅
-* **Background Music (BGM):** Musik *seamless* antar-scene menggunakan pola *Singleton*.
-* **Sound Effects (SFX):** Lengkap (Tombol, Lompat, Collect, Kalah, Menang).
-* **Volume Control:** Pengaturan volume menggunakan Slider di menu Options.
+### 4. Final Polish ✨
+* **Tirai Hitam (Fade):** Menutupi *glitch* visual saat memuat data profil.
+* **Warning System:** Notifikasi jika pemain lupa mengisi nama saat setup awal.
 
 ---
 
-## 🕹️ Cara Bermain (Controls)
+## 🧩 Fitur Lengkap
 
-| Tombol | Fungsi |
+### 1. Game Mechanics (Mekanik Permainan)
+* **Character Movement:** Fisika karakter yang responsif terhadap input sentuhan.
+* **AI Enemy:** Musuh berpatroli (Opossum & Eagle) yang memberikan *damage* saat disentuh.
+* **Hazard System:** Duri dan Jurang yang mematikan.
+* **Checkpoint:** Respawn di titik aman terakhir.
+
+### 2. User Interface (UI) System
+* **Profile Setup Panel:** Panel awal untuk registrasi nama.
+* **Main Menu:** Menampilkan sapaan personal ("Hi, [Nama]").
+* **Virtual Gamepad:** Tombol kontrol transparan di layar permainan.
+* **Flow Panels:** Pause, Game Over, dan Level Complete.
+
+### 3. Level Design
+* **Level 1 (The Forest):** Level lengkap dengan kurva kesulitan bertahap (Tutorial -> Tantangan -> Finish).
+
+### 4. Audio Implementation
+* **Dynamic Audio:** BGM yang berbeda tiap scene dan SFX lengkap.
+
+---
+
+## 🕹️ Cara Bermain (Android Controls)
+
+| Tombol di Layar | Fungsi |
 | :--- | :--- |
-| **Panah Kanan / D** | Bergerak ke Kanan |
-| **Panah Kiri / A** | Bergerak ke Kiri |
-| **Spasi (Space)** | Melompat |
-| **Mouse Klik** | Interaksi UI |
+| **Tombol Panah Kanan (➡️)** | Bergerak Maju |
+| **Tombol Panah Kiri (⬅️)** | Bergerak Mundur |
+| **Tombol Panah Atas (⬆️)** | Melompat (*Jump*) |
+| **Tap Layar / Tombol UI** | Interaksi Menu |
 
 ---
-*Disusun untuk memenuhi Tugas UAS Mata Kuliah Pemograman Berbasis Objek.*
+
+## 📥 Cara Mengunduh & Memainkan Game (APK)
+
+Game ini sudah tersedia dalam format **.APK** yang bisa diinstal di HP Android.
+1. Masuk ke tab **Releases** di sebelah kanan halaman GitHub ini.
+2. Pilih versi terbaru.
+3. Download file **`Fox N Lapin Princess v1.0.5.apk`**.
+4. Install di HP Android kamu dan mainkan!
+
+---
+
+## 🛠️ Cara Menggunakan Project Ini (Untuk Developer)
+
+Jika ingin membuka *source code* game ini di Unity Editor:
+
+1. **Clone Repository:**
+   ```bash
+   git clone [https://github.com/radenkuakan/Fox_N_Lapin_Princess.git](https://github.com/radenkuakan/Fox_N_Lapin_Princess.git)
